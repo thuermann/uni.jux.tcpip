@@ -1,0 +1,10 @@
+This is part of a JuX[1] talk held on 12 Jan 1993, about TCP/IP
+networking, socket programming, and RPC.
+
+Here is some sample code for TCP/IP client/server code and some slides
+about network packet formats.  All other content of that talk was only
+on paper and/or the blackboard.
+
+[1] JuX (Joviale Unterweisung in Unix) is a series of talks about Unix
+    and related topics, organized by Martin Neitzel at the Technical
+    University of Braunschweig.
