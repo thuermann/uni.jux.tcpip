@@ -1,0 +1,104 @@
+.PS
+boxwid = 3
+boxht = .2
+v=boxht
+down
+
+define eth_header {
+	box ht 3 * v $1
+	box ht 3 * v $2
+	box $3
+}
+
+define ip_header_a {
+	[
+		right
+		box wid 1/4 * boxwid $1
+		box wid 1/4 * boxwid $2
+		box wid 1/2 * boxwid $3
+	]
+	box $4
+	box $5
+	[
+		right
+		box wid 1/4 * boxwid $6
+		box wid 3/4 * boxwid $7
+	]
+}
+
+define ip_header_b {
+	[
+		right
+		box wid 1/2 * boxwid $1
+		box wid 1/2 * boxwid $2
+	]
+	box $3
+	box ht 2 * v $4
+	box ht 2 * v $5
+}
+
+define tcp_header_a {
+	box $1
+	box $2
+	box ht 2 * v $3
+	box ht 2 * v $4
+}
+
+define tcp_header_b {
+	[
+		right
+		box wid 1/4 * boxwid $1
+		box wid 3/8 * boxwid $2
+		box wid 3/8 * boxwid $3
+	]
+	box $4
+	box $5
+	box $6
+}
+
+define data {
+	box ht 5 * v "DATA"
+}
+
+ETHER:\
+eth_header("Ethernet Destination Address", "Ethernet Source Address", \
+	"Type Code")
+
+IP:\
+ip_header_a("Version", "IHL", "Type Of Service", \
+	"Total Length", \
+	"Identification", \
+	"Flags", "Fragment Offset")
+
+ip_header_b("Time To Live", "Protocol", \
+	"Header Checksum", \
+	"Source Address", \
+	"Destination Address")
+
+TCP:\
+tcp_header_a("Source Port", "Destination Port", \
+	"Sequence Number", "Acknowledgement Number")
+
+tcp_header_b("Data Offset", "Reserved", "Flags", \
+	"Window", "Checksum", "Urgent Pointer")
+
+DATA:\
+data()
+
+move to ETHER.n right boxwid right 1
+down
+eth_header("00:00:0C:00:A6:23", "08:00:20:0E:1C:95", "0x0800")
+
+ip_header_a()
+ip_header_b("30", "6", \
+	"", \
+	"134.169.34.13", \
+	"18.71.0.38")
+
+tcp_header_a("4711", "20", \
+	"0815", "")
+
+tcp_header_b()
+
+data()
+.PE
